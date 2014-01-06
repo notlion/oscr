@@ -1,0 +1,13 @@
+{
+  "name": "oscr",
+  "version": "0.0.0",
+  "description": "A REPL for OSC",
+  "main": "oscr.js",
+  "bin": { "oscr": "oscr.js" },
+  "author": "Ryan Alexander",
+  "license": "MIT",
+  "dependencies": {
+    "omgosc": "~1.0.0",
+    "optimist": "~0.6.0"
+  }
+}
