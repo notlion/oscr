@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-
 var util = require('util');
 var optimist = require('optimist')
   .usage('oscr: Start an OSC(Open Sound Control) REPL.\nUsage: $0')

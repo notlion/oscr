@@ -1,6 +1,6 @@
 {
   "name": "oscr",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A REPL for OSC",
   "main": "oscr.js",
   "bin": { "oscr": "oscr.js" },
