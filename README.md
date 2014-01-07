@@ -15,3 +15,14 @@ Then enter some OSC messages
 ```
 > /hello iii 1 2 3  # <path> <type-tag> <args>
 ```
+
+### Tricks
+You can include any valid javascript expression, as long as there are no spaces ;)
+
+```
+> ['','foo','moo'].join('/') Array(4).join('f') 3.0 4.0 5.0
+{ path: '/foo/moo',
+  typetag: 'fff',
+  params: [ '3.0', '4.0', '5.0' ] }
+```
+Not that you would want to do this, though...
