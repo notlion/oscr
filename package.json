@@ -1,9 +1,11 @@
 {
   "name": "oscr",
   "version": "0.0.3",
-  "description": "A REPL for OSC",
+  "description": "A Read Eval Print loop for Open Sound Control messages",
   "main": "oscr.js",
-  "bin": { "oscr": "oscr.js" },
+  "bin": {
+    "oscr": "oscr.js"
+  },
   "author": "Ryan Alexander",
   "license": "MIT",
   "dependencies": {

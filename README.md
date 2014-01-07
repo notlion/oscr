@@ -27,9 +27,9 @@ Then enter some OSC messages.
 You can include any valid javascript expression, as long as there are no spaces ;)
 
 ```
-> ['','foo','moo'].join('/') Array(4).join('f') 3-1 1+1 1*3
+> ['','foo','moo'].join('/') Array(4).join('f')+'i' 3-2 1+1 1*3 Date.now()
 { path: '/foo/moo',
-  typetag: 'fff',
-  params: [ '1', '2', '3' ] }
+  typetag: 'fffi',
+  params: [ 1, 2, 3, 1389086059435 ] }
 ```
 Not that you would want to do this, though...
