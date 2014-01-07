@@ -34,7 +34,7 @@ function createMessage(line) {
   return {
     path:    evalArg(args[0]),
     typetag: evalArg(args[1]) || '',
-    params:  evalArg(args.slice(2))
+    params:  args.slice(2).map(evalArg)
   };
 }
 
