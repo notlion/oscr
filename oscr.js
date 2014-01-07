@@ -23,71 +23,63 @@ if (argv.help) {
   process.exit();
 }
 
-if (!process.stdin.isTTY) throw 'Input stream must be TTY.';
-
-var debug = argv.debug;
-function log(m) {
-  process.stdout.write(m);
-}
-
-var osc = require('omgosc');
+var osc    = require('omgosc');
 var oscOut = new osc.UdpSender(argv.host, argv.port);
 var oscIn  = new osc.UdpReceiver(argv.iport);
 
-var prompt = '> ';
-
-function inpectColor(o) {
-  return util.inspect(o, { colors: true });
+function evalArg(arg) {
+  try {
+    return eval(arg);
+  }
+  catch(err) {}
+  return eval('"' + arg + '"');
 }
 
-function formatMessage(msg) {
-  return inpectColor(msg.path)    + ' ' +
-         inpectColor(msg.typetag) + ' ' +
-         inpectColor(msg.params);
-}
-
-function processLine(line) {
+function createMessage(line) {
   var args = line.split(/\s+/);
-
-  var msg = {
-    path:    args[0],
-    typetag: args[1] || '',
-    params:  args.slice(2)
+  return {
+    path:    evalArg(args[0]),
+    typetag: evalArg(args[1]) || '',
+    params:  evalArg(args.slice(2))
   };
-
-  if (debug) log('sending: ' + formatMessage(msg));
-
-  oscOut.send(msg.path, msg.typetag, msg.params);
-
-  cuePrompt();
 }
 
 var promptTimer = null;
-var promptDelay = 10;
-function cuePrompt() {
+function cuePrompt(delay) {
   if (promptTimer) {
     clearTimeout(promptTimer);
     promptTimer = null;
   }
-  promptTimer = setTimeout(logPrompt, promptDelay);
+  promptTimer = setTimeout(logPrompt, delay);
 
 }
 function logPrompt() {
-  log('\n' + prompt);
+  process.stdout.write('\n> ');
 }
+
 
 function printMessage(msg) {
-  log('\n' + formatMessage(msg));
-  cuePrompt();
+  process.stdout.write('\n' + util.inspect(msg, { colors: true }));
+  cuePrompt(100);
 }
-
-process.stdin.setEncoding('utf8');
-process.stdin.on('data', processLine);
 
 if (argv.iport) {
   oscIn.on('', printMessage);
 }
 
-log('Transmitting to ' + argv.host + ':' + argv.port);
-log('\nListening on port ' + argv.iport);
-logPrompt();
+require('repl').start({
+  'eval': function(cmd, context, filename, callback) {
+    if (cmd.length > 3) {
+      var msg = createMessage(cmd.slice(1, -2));
+      oscOut.send(msg.path, msg.typetag, msg.params);
+      callback(null, msg);
+    }
+    else {
+      callback(null);
+    }
+  },
+  ignoreUndefined: true
+})
+.on('exit', function() {
+  process.exit();
+});
