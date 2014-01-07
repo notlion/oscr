@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var util = require('util');
+
 var optimist = require('optimist')
   .usage('Usage: oscr -h [hostname] -p [port]')
 
@@ -22,15 +23,9 @@ if (argv.help) {
   process.exit();
 }
 
-var osc    = require('omgosc');
-var oscOut = new osc.UdpSender(argv.host, argv.port);
-var oscIn  = new osc.UdpReceiver(argv.iport);
 
 function evalArg(arg) {
-  try {
-    return eval(arg);
-  }
-  catch(err) {}
+  try { return eval(arg) } catch(err) {}
   return eval('"' + arg + '"');
 }
 
@@ -60,6 +55,11 @@ function printMessage(msg) {
   process.stdout.write('\n' + util.inspect(msg, { colors: true }));
   cuePrompt(100);
 }
+
+
+var osc    = require('omgosc');
+var oscOut = new osc.UdpSender(argv.host, argv.port);
+var oscIn  = new osc.UdpReceiver(argv.iport);
 
 if (argv.iport) {
   oscIn.on('', printMessage);
