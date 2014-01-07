@@ -2,19 +2,18 @@
 
 var util = require('util');
 var optimist = require('optimist')
-  .usage('oscr: Start an OSC(Open Sound Control) REPL.\nUsage: $0')
+  .usage('Usage: oscr -h [hostname] -p [port]')
 
   .alias('h', 'host')
   .describe('h', 'Remote Hostname')
-  .default('h', 'localhost')
 
   .alias('p', 'port')
   .describe('p', 'Remote Port')
-  .default('p', 7777)
 
   .alias('i', 'iport')
   .describe('i', 'Local Port')
-  .default('i', 8000)
+
+  .demand([ 'h', 'p' ])
 
 var argv = optimist.argv;
 
@@ -51,7 +50,6 @@ function cuePrompt(delay) {
     promptTimer = null;
   }
   promptTimer = setTimeout(logPrompt, delay);
-
 }
 
 function logPrompt() {
