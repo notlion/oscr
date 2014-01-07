@@ -53,10 +53,10 @@ function cuePrompt(delay) {
   promptTimer = setTimeout(logPrompt, delay);
 
 }
+
 function logPrompt() {
   process.stdout.write('\n> ');
 }
-
 
 function printMessage(msg) {
   process.stdout.write('\n' + util.inspect(msg, { colors: true }));
