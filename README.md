@@ -7,10 +7,17 @@ $ npm install -g oscr
 ```
 
 ### Usage
+Specify outgoing host and port.
+
+```
+$ oscr -h localhost -p 7777
+```
+Specify an incoming port to log OSC messages.
+
 ```
 $ oscr -h localhost -p 7777 -i 8000
 ```
-Then enter some OSC messages
+Then enter some OSC messages.
 
 ```
 > /hello iii 1 2 3  # <path> <type-tag> <args>
