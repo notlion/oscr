@@ -2,14 +2,19 @@
   "name": "oscr",
   "version": "0.0.3",
   "description": "A Read Eval Print loop for Open Sound Control messages",
-  "main": "oscr.js",
+  "keywords": [
+    "osc",
+    "repl"
+  ],
   "bin": {
     "oscr": "oscr.js"
   },
   "author": "Ryan Alexander",
   "license": "MIT",
+  "repository": "https://github.com/notlion/oscr.git",
   "dependencies": {
     "omgosc": "~1.0.0",
     "optimist": "~0.6.0"
-  }
+  },
+  "preferGlobal": true
 }
