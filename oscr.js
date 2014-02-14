@@ -14,10 +14,11 @@ var optimist = require('optimist')
   .alias('i', 'iport')
   .describe('i', 'Local Port')
 
+  .boolean('s')
   .alias('s', 'snoop')
-  .describe('s')
+  .describe('s', 'Log incoming messages and redirect to remote host')
 
-  .demand([ 'h', 'p' ])
+  .demand([ 'h', 'p' ]);
 
 var argv = optimist.argv;
 
@@ -33,7 +34,7 @@ if (argv.snoop && !argv.iport) {
 }
 
 function evalArg(arg) {
-  try { return eval(arg) } catch(err) {}
+  try { return eval(arg); } catch(err) {}
   return eval('"' + arg + '"');
 }
 
