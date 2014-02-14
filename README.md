@@ -33,3 +33,8 @@ You can include any valid javascript expression, as long as there are no spaces 
   params: [ 1, 2, 3, 1389086059435 ] }
 ```
 Not that you would want to do this, though...
+
+The snoop argument can be used to help debug communication and will log all incoming messages and immediately redirect them to the outgoing host and port.
+```
+$ oscr -h localhost -p 8000 -i 9999 -s
+```

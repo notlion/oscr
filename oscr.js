@@ -14,6 +14,9 @@ var optimist = require('optimist')
   .alias('i', 'iport')
   .describe('i', 'Local Port')
 
+  .alias('s', 'snoop')
+  .describe('s')
+
   .demand([ 'h', 'p' ])
 
 var argv = optimist.argv;
@@ -23,6 +26,11 @@ if (argv.help) {
   process.exit();
 }
 
+if (argv.snoop && !argv.iport) {
+  optimist.showHelp();
+  console.error('Missing required argument: i');
+  process.exit(1);
+}
 
 function evalArg(arg) {
   try { return eval(arg) } catch(err) {}
@@ -62,7 +70,12 @@ var oscOut = new osc.UdpSender(argv.host, argv.port);
 var oscIn  = new osc.UdpReceiver(argv.iport);
 
 if (argv.iport) {
-  oscIn.on('', printMessage);
+  oscIn.on('', function (msg) {
+    printMessage(msg);
+    if (argv.snoop) {
+      oscOut.send(msg.path, msg.typetag, msg.params);
+    }
+  });
 }
 
 require('repl').start({
