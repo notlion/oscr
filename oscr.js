@@ -16,7 +16,7 @@ var optimist = require('optimist')
 
   .boolean('s')
   .alias('s', 'snoop')
-  .describe('s', 'Log incoming messages and redirect to remote host')
+  .describe('s', 'Forward incoming messages to remote host')
 
   .demand([ 'h', 'p' ]);
 
