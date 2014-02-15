@@ -47,6 +47,10 @@ function createMessage(line) {
   };
 }
 
+function logPrompt() {
+  process.stdout.write('\n> ');
+}
+
 var promptTimer = null;
 function cuePrompt(delay) {
   if (promptTimer) {
@@ -54,10 +58,6 @@ function cuePrompt(delay) {
     promptTimer = null;
   }
   promptTimer = setTimeout(logPrompt, delay);
-}
-
-function logPrompt() {
-  process.stdout.write('\n> ');
 }
 
 function printMessage(msg) {
@@ -71,7 +71,7 @@ var oscOut = new osc.UdpSender(argv.host, argv.port);
 var oscIn  = new osc.UdpReceiver(argv.iport);
 
 if (argv.iport) {
-  oscIn.on('', function (msg) {
+  oscIn.on('', function(msg) {
     printMessage(msg);
     if (argv.snoop) {
       oscOut.send(msg.path, msg.typetag, msg.params);
