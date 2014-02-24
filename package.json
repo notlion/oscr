@@ -1,6 +1,6 @@
 {
   "name": "oscr",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "A Read Eval Print loop for Open Sound Control messages",
   "keywords": [
     "osc",
