@@ -4,10 +4,16 @@ var matchArgs = new RegExp([
   '((?:\\\\.|\\S)+)'         // Bare words
 ].join('|'), 'g');
 
+function firstDefined(arr) {
+  for (var i = 0, l = arr.length; i < l; ++i) {
+    if (arr[i] !== undefined) return arr[i];
+  }
+}
+
 module.exports = function(argsStr) {
   var arg, args = [];
   while (arg = matchArgs.exec(argsStr)) {
-    args.push(arg[3] || arg[2] || arg[1]);
+    args.push(firstDefined(arg.slice(1)));
   }
   return args;
 };

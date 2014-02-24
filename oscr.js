@@ -34,9 +34,17 @@ if (argv.snoop && !argv.iport) {
   process.exit(1);
 }
 
+function escapeQuotes(str) {
+  return str.replace(/\\?"/g, '\\\"').replace(/\\?'/g, "\\\'")
+}
+
 function evalArg(arg) {
-  try { return eval(arg); } catch(err) {}
-  return eval('"' + arg + '"');
+  var res;
+  try { res = eval(arg); } catch (err) {}
+  if (res === undefined) {
+    res = eval('"' + escapeQuotes(arg) + '"');
+  }
+  return res;
 }
 
 function createMessage(line) {
@@ -46,6 +54,19 @@ function createMessage(line) {
     typetag: evalArg(args[1]) || '',
     params:  args.slice(2).map(evalArg)
   };
+}
+
+function sendMessage(msg) {
+  if (msg.params.length < msg.typetag.length) {
+    return console.error('Too few arguments for typetag: %s', msg.typetag);
+  }
+  try {
+    oscOut.send(msg.path, msg.typetag, msg.params);
+  }
+  catch (err) {
+    return console.error(err);
+  }
+  return msg;
 }
 
 function logPrompt() {
@@ -83,9 +104,8 @@ if (argv.iport) {
 require('repl').start({
   'eval': function(cmd, context, filename, callback) {
     if (cmd.length > 3) {
-      var msg = createMessage(cmd.slice(1, -2));
-      oscOut.send(msg.path, msg.typetag, msg.params);
-      callback(null, msg);
+      var res = sendMessage(createMessage(cmd.slice(1, -2)));
+      callback(null, res);
     }
     else {
       callback(null);
