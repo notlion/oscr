@@ -34,9 +34,6 @@ if (argv.snoop && !argv.iport) {
   process.exit(1);
 }
 
-function startsWith(str, searchStr) {
-  return str.indexOf(searchStr) === searchStr;
-}
 function evalArg(arg) {
   try { return eval(arg); } catch(err) {}
   return eval('"' + arg + '"');
