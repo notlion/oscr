@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-var util = require('util');
+var util    = require('util');
+var unquote = require('./unquote');
 
 var optimist = require('optimist')
   .usage('Usage: oscr -h [hostname] -p [port]')
@@ -33,13 +34,16 @@ if (argv.snoop && !argv.iport) {
   process.exit(1);
 }
 
+function startsWith(str, searchStr) {
+  return str.indexOf(searchStr) === searchStr;
+}
 function evalArg(arg) {
   try { return eval(arg); } catch(err) {}
   return eval('"' + arg + '"');
 }
 
 function createMessage(line) {
-  var args = line.split(/\s+/);
+  var args = unquote(line);
   return {
     path:    evalArg(args[0]),
     typetag: evalArg(args[1]) || '',
